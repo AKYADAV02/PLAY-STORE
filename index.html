@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>App</title>
+<style>
+:root{--bg:#fff;--text:#202124;--muted:#5f6368;--accent:#01875f;--accent-h:#017a56;--line:#dadce0;--chip:#f1f3f4;--bar:#e8eaed}
+@media (prefers-color-scheme:dark){:root{--bg:#131314;--text:#e3e3e3;--muted:#9aa0a6;--accent:#8ab4f8;--accent-h:#a8c7fa;--line:#3c4043;--chip:#252527;--bar:#3c4043}}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Google Sans",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+a{color:inherit;text-decoration:none}
+/* nav */
+nav{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;align-items:center;gap:28px;padding:0 24px;height:64px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-size:22px;color:var(--muted);white-space:nowrap}
+.brand svg{width:32px;height:32px}
+.tabs{display:flex;gap:6px;height:100%}
+.tabs a{display:flex;align-items:center;padding:0 14px;font-size:14px;color:var(--muted);border-bottom:3px solid transparent}
+.tabs a.on{color:var(--accent);border-color:var(--accent);font-weight:500}
+.sp{flex:1}
+.search{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted)}
+.search:hover{background:var(--chip)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px}
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding:32px 24px;display:grid;grid-template-columns:1fr 300px;gap:48px}
+.hero{display:flex;gap:28px;align-items:flex-start}
+.icon{width:128px;height:128px;border-radius:28px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:70px;overflow:hidden;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.icon img{width:100%;height:100%;object-fit:cover}
+h1{font-size:34px;font-weight:500;margin:0 0 6px;line-height:1.2}
+.dev{color:var(--accent);font-size:15px;font-weight:500}
+.meta{color:var(--muted);font-size:13px;margin-top:4px}
+/* stats */
+.stats{display:flex;margin:28px 0 24px;align-items:stretch}
+.st{flex:1;text-align:center;padding:0 12px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:4px}
+.st:first-child{border:0;padding-left:0}
+.st b{font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:3px}
+.st span{font-size:12px;color:var(--muted)}
+.rated{display:inline-block;border:1px solid var(--muted);border-radius:3px;padding:0 4px;font-size:11px}
+/* actions */
+.actions{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.install{background:var(--accent);color:#fff;padding:0 40px;height:40px;display:inline-flex;align-items:center;border-radius:20px;font-weight:500;font-size:14px}
+@media (prefers-color-scheme:dark){.install{color:#062e6f}}
+.install:hover{background:var(--accent-h)}
+.ghost{display:inline-flex;align-items:center;gap:8px;color:var(--accent);font-size:14px;font-weight:500;height:40px;padding:0 12px;border-radius:20px;background:none;border:0;cursor:pointer;font-family:inherit}
+.ghost:hover{background:var(--chip)}
+.note{font-size:12px;color:var(--muted);margin-top:10px}
+/* shots */
+.shots{display:flex;gap:12px;overflow-x:auto;margin:32px 0 8px;padding-bottom:8px}
+.shots img,.ph{height:340px;aspect-ratio:9/16;border-radius:12px;flex:none;object-fit:cover;background:var(--chip)}
+.ph{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px;border:1px solid var(--line)}
+/* sections */
+section{margin-top:36px}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hd h2{font-size:20px;font-weight:500;margin:0}
+.hd svg{color:var(--muted)}
+.txt{font-size:14px;line-height:1.6;color:var(--muted);white-space:pre-line}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{border:1px solid var(--line);border-radius:8px;padding:6px 14px;font-size:13px}
+.box{border:1px solid var(--line);border-radius:10px;padding:16px;font-size:13px;color:var(--muted);line-height:1.6}
+.box p{margin:8px 0;display:flex;gap:10px}
+.box svg{flex:none;margin-top:2px}
+/* ratings */
+.rt{display:flex;gap:40px;align-items:center;flex-wrap:wrap}
+.big{font-size:56px;line-height:1;font-weight:400}
+.stars{color:var(--accent);letter-spacing:2px;font-size:14px;margin:4px 0}
+.bars{flex:1;min-width:200px}
+.bar{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted);margin:3px 0}
+.bar i{flex:1;height:10px;border-radius:5px;background:var(--bar);overflow:hidden}
+.bar u{display:block;height:100%;background:var(--accent);border-radius:5px}
+.rev{margin-top:24px}
+.rh{display:flex;align-items:center;gap:12px}
+.rh .avatar{width:36px;height:36px;background:var(--muted)}
+.rev .stars{display:inline;margin-right:8px}
+.rev p{font-size:14px;line-height:1.5;margin:8px 0}
+.rev small{color:var(--muted);font-size:12px}
+/* side */
+aside h3{font-size:18px;font-weight:500;margin:0 0 16px}
+.sim{display:flex;gap:14px;margin-bottom:16px;align-items:center}
+.sim .icon{width:56px;height:56px;border-radius:14px;font-size:30px;box-shadow:none}
+.sim b{font-weight:500;font-size:14px;display:block}
+.sim span{font-size:12px;color:var(--muted)}
+.info dt{font-size:13px;color:var(--muted);margin-top:14px}
+.info dd{margin:2px 0 0;font-size:14px}
+@media (max-width:900px){.wrap{grid-template-columns:1fr;gap:16px;padding:20px 16px}aside{order:3}.tabs{display:none}}
+@media (max-width:560px){.hero{gap:16px}.icon{width:84px;height:84px;font-size:46px;border-radius:20px}h1{font-size:24px}.stats{overflow-x:auto}.st{min-width:96px}.install{flex:1;justify-content:center}.shots img,.ph{height:260px}}
+footer{border-top:1px solid var(--line);color:var(--muted);font-size:12px;padding:24px;text-align:center}
+</style>
+</head>
+<body>
+<nav>
+  <a class="brand" href="#"><svg viewBox="0 0 24 24"><path fill="#00d2ff" d="M3.6 2.4c-.3.3-.5.8-.5 1.4v16.4c0 .6.2 1.1.5 1.4l.1.1 9.2-9.2v-.2L3.7 2.3z"/><path fill="#ffd400" d="M16 15.2l-3.1-3.1v-.2L16 8.8l.1.1 3.7 2.1c1 .6 1 1.5 0 2.1l-3.7 2.1z"/><path fill="#f43249" d="M16.1 15.1L12.9 12 3.6 21.3c.4.4.9.4 1.6.1z"/><path fill="#00f076" d="M16.1 8.9L5.2 2.6c-.7-.4-1.2-.3-1.6.1L12.9 12z"/></svg><span id="brand"></span></a>
+  <div class="tabs"><a href="#">Games</a><a class="on" href="#">Apps</a><a href="#">Movies</a><a href="#">Books</a></div>
+  <div class="sp"></div>
+  <a class="search" href="#" aria-label="Search"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.7l5 5 1.5-1.5-5-5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg></a>
+  <a class="search" href="#" aria-label="More options"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg></a>
+</nav>
+
+<div class="wrap">
+ <div>
+  <div class="hero">
+    <div class="icon" id="icon"></div>
+    <div>
+      <h1 id="name"></h1>
+      <div class="dev" id="dev"></div>
+      <div class="meta" id="iap"></div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="st"><b id="s1"></b><span id="s1l"></span></div>
+    <div class="st"><b id="s2"></b><span>Downloads</span></div>
+    <div class="st"><b><span class="rated" id="s3" style="color:var(--text)"></span></b><span>Rated for</span></div>
+    <div class="st"><b id="s4"></b><span>Size</span></div>
+  </div>
+
+  <div class="actions">
+    <a class="install" id="dl" target="_blank" rel="noopener" download>Install</a>
+    <button class="ghost" id="share"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16a3 3 0 0 0-2 .8l-7.1-4.2a3 3 0 0 0 0-1.2L16 7.2A3 3 0 1 0 15 5a3 3 0 0 0 .1.7L8 9.9a3 3 0 1 0 0 4.2l7.1 4.2A3 3 0 1 0 18 16z"/></svg>Share</button>
+    <button class="ghost" id="wish"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H7a2 2 0 0 0-2 2v16l7-3 7 3V5a2 2 0 0 0-2-2z"/></svg><span>Add to wishlist</span></button>
+  </div>
+  <div class="note">If Chrome shows a warning, tap “Keep”, then allow “Install unknown apps” for Chrome when asked.</div>
+
+  <div class="shots" id="shots"></div>
+
+  <section>
+    <div class="hd"><h2>About this app</h2><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></div>
+    <div class="txt" id="desc"></div>
+    <div class="tags" id="tags"></div>
+  </section>
+
+  <section>
+    <div class="hd"><h2>Data safety</h2><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></svg></div>
+    <div class="txt" style="margin-bottom:12px">Safety starts with understanding how developers collect and share your data.</div>
+    <div class="box" id="safety"></div>
+  </section>
+
+  <section>
+    <div class="hd"><h2>Ratings and reviews</h2></div>
+    <div class="rt">
+      <div><div class="big" id="rbig"></div><div class="stars" id="rstars"></div><div class="meta" id="rcount"></div></div>
+      <div class="bars" id="bars"></div>
+    </div>
+    <div id="reviews"></div>
+  </section>
+
+  <section>
+    <div class="hd"><h2>What’s new</h2></div>
+    <div class="txt" id="news"></div>
+  </section>
+ </div>
+
+ <aside>
+  <h3>App support</h3>
+  <dl class="info" id="info" style="margin:0 0 32px"></dl>
+  <h3>More by this developer</h3>
+  <div id="more"></div>
+ </aside>
+</div>
+<footer id="foot"></footer>
+
+<script>
+/* ================= EDIT HERE — change values to update the page ================= */
+const APP = {
+  siteName: "Play Store",
+  name: "Photo Editor Pro",
+  developer: "Your Real Name",
+  icon: "🖼️",                         // emoji or image URL
+  downloadUrl: "https://example.com/photo-editor.apk",   // APK / Play Store / any link
+  inAppPurchases: "Contains ads · In-app purchases",
+  rating: 4.6,
+  reviewCount: "12.4K reviews",
+  downloads: "10K+",
+  size: "24 MB",
+  rated: "3+",
+  version: "1.2.0",
+  updated: "Nov 1, 2026",
+  requires: "Android 8.0 and up",
+  category: "Photography",
+  tags: ["Photography", "Editing", "Free"],
+  email: "yourname@gmail.com",
+  website: "https://example.com",
+  privacyUrl: "https://example.com/privacy",
+  screenshots: [],                    // e.g. ["https://.../1.png","https://.../2.png"]
+  description: "Edit, crop and enhance your photos.\nFast, simple and free.\n\n• Filters and effects\n• Crop, rotate and resize\n• Share in one tap",
+  whatsNew: "• Bug fixes\n• Performance improvements",
+  safety: [
+    "No data shared with third parties",
+    "This app may collect these data types: App info and performance",
+    "Data is encrypted in transit",
+    "You can request that data be deleted"
+  ],
+  ratingBars: [78, 12, 5, 2, 3],      // % of 5★, 4★, 3★, 2★, 1★
+  reviews: [
+    { name: "Rahul S.", stars: 5, date: "October 28, 2026", text: "Very smooth and easy to use. Love it!" },
+    { name: "Priya M.", stars: 4, date: "October 20, 2026", text: "Great app, would like a few more filters." }
+  ],
+  more: [ { name: "Task Master", icon: "✅", sub: "Productivity" }, { name: "Fun Quiz", icon: "🎮", sub: "Games" } ]
+};
+/* ================================================================================ */
+
+const $ = id => document.getElementById(id);
+const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+const isImg = s => /^(https?:|data:|\.?\/)/.test(s || "");
+const setIcon = (box, ic) => { if (isImg(ic)) { const i = el("img"); i.src = ic; i.alt = ""; box.appendChild(i); } else box.textContent = ic || "📱"; };
+const stars = n => "★".repeat(Math.round(n)) + "☆".repeat(5 - Math.round(n));
+
+document.title = APP.name + " – Apps on " + APP.siteName;
+$("brand").textContent = APP.siteName;
+$("foot").textContent = "© " + APP.siteName + " · Privacy · Terms";
+setIcon($("icon"), APP.icon);
+$("name").textContent = APP.name;
+$("dev").textContent = APP.developer;
+$("iap").textContent = APP.inAppPurchases;
+$("s1").textContent = APP.rating + " ★"; $("s1l").textContent = APP.reviewCount;
+$("s2").textContent = APP.downloads;
+$("s3").textContent = APP.rated;
+$("s4").textContent = APP.size;
+$("dl").href = APP.downloadUrl;
+$("desc").textContent = APP.description;
+$("news").textContent = APP.whatsNew;
+APP.tags.forEach(t => $("tags").appendChild(el("span", "tag", t)));
+
+/* screenshots */
+if (APP.screenshots.length) APP.screenshots.forEach(s => { const i = el("img"); i.src = s; i.alt = "Screenshot"; $("shots").appendChild(i); });
+else for (let i = 1; i <= 4; i++) $("shots").appendChild(el("div", "ph", "Screenshot " + i));
+
+/* data safety */
+const shield = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z"/></svg>';
+APP.safety.forEach(s => { const p = el("p"); p.innerHTML = shield; p.appendChild(el("span", null, s)); $("safety").appendChild(p); });
+
+/* ratings */
+$("rbig").textContent = APP.rating.toFixed(1);
+$("rstars").textContent = stars(APP.rating);
+$("rcount").textContent = APP.reviewCount;
+APP.ratingBars.forEach((v, i) => {
+  const r = el("div", "bar"); r.appendChild(el("span", null, 5 - i));
+  const b = el("i"), u = el("u"); u.style.width = v + "%"; b.appendChild(u); r.appendChild(b); $("bars").appendChild(r);
+});
+APP.reviews.forEach(rv => {
+  const d = el("div", "rev"), h = el("div", "rh");
+  h.appendChild(el("div", "avatar", rv.name[0])); h.appendChild(el("span", null, rv.name)); d.appendChild(h);
+  const l = el("div"); l.style.marginTop = "8px";
+  l.appendChild(el("span", "stars", stars(rv.stars))); l.appendChild(el("small", null, rv.date)); d.appendChild(l);
+  d.appendChild(el("p", null, rv.text)); $("reviews").appendChild(d);
+});
+
+/* sidebar */
+[["Version", APP.version], ["Updated on", APP.updated], ["Requires Android", APP.requires], ["Downloads", APP.downloads],
+ ["Name", APP.developer], ["Email", APP.email]].forEach(([k, v]) => { $("info").appendChild(el("dt", null, k)); const dd = el("dd", null, v);
+  if (k === "Email") { dd.textContent = ""; const a = el("a", null, v); a.href = "mailto:" + v; a.style.color = "var(--accent)"; dd.appendChild(a); }
+  $("info").appendChild(dd); });
+APP.more.forEach(m => {
+  const r = el("div", "sim"), ic = el("div", "icon"); setIcon(ic, m.icon);
+  const t = el("div"); t.appendChild(el("b", null, m.name)); t.appendChild(el("span", null, m.sub));
+  r.appendChild(ic); r.appendChild(t); $("more").appendChild(r);
+});
+
+/* buttons */
+$("share").onclick = async () => {
+  try { if (navigator.share) await navigator.share({ title: APP.name, url: location.href }); else { await navigator.clipboard.writeText(location.href); $("share").lastChild.textContent = "Link copied"; } } catch (e) {}
+};
+$("wish").onclick = () => { const s = $("wish").querySelector("span"); s.textContent = s.textContent === "Add to wishlist" ? "On your wishlist" : "Add to wishlist"; };
+</script>
+</body>
+</html>
